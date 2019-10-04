@@ -16,7 +16,6 @@ namespace SimpleBind
 		T GetValue<T>();
 	}
 
-	[Serializable]
 	public class DataSource<T> : IDataSource
 	{
 		public event Action Changed;
@@ -65,17 +64,13 @@ namespace SimpleBind
 	}
 	
 #if UNITY_EDITOR
+	// Do not draw data sources in inspector individually.
+	// Instead, View Models have special rendering code for data sources.
 	[CustomPropertyDrawer(typeof(IDataSource), true)]
 	public class DataSourcePropertyDrawer : PropertyDrawer
 	{
-		public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
-		{
-		}
-
-		public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
-		{
-			return 0;
-		}
+		public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) { }
+		public override float GetPropertyHeight(SerializedProperty property, GUIContent label) => 0;
 	}
 #endif
 }

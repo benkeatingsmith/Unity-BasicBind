@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.Design;
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -26,7 +25,7 @@ namespace SimpleBind
 
 		public ViewModel ViewModel;
 
-		private readonly List<Entry> Bindings = new List<Entry>();
+		private readonly List<Entry> bindings = new List<Entry>();
 
 		private void OnEnable()
 		{
@@ -41,7 +40,7 @@ namespace SimpleBind
 		{
 			if (dataSourceReference?.Source == null) return;
 
-			Bindings.Add(new Entry
+			bindings.Add(new Entry
 			{
 				DataSourceReference = dataSourceReference,
 				Handler = handler
@@ -53,7 +52,7 @@ namespace SimpleBind
 
 		protected void Unbind(DataSourceReference dataSourceReference)
 		{
-			var idx = Bindings.FindIndex(x => x.DataSourceReference == dataSourceReference);
+			var idx = bindings.FindIndex(x => x.DataSourceReference == dataSourceReference);
 			if (idx == -1) return;
 			
 			Unbind(idx, true);
@@ -66,18 +65,18 @@ namespace SimpleBind
 
 		private void Unbind(int bindingEntryIdx, bool removeEntry)
 		{
-			var entry = Bindings[bindingEntryIdx];
+			var entry = bindings[bindingEntryIdx];
 			if (entry.DataSourceReference.Source != null) entry.DataSourceReference.Source.Changed -= entry.Handler;
-			if (removeEntry) Bindings.EraseSwap(bindingEntryIdx);
+			if (removeEntry) bindings.EraseSwap(bindingEntryIdx);
 		}
 
 		private void UnbindAll()
 		{
-			for (var i = Bindings.Count - 1; i >= 0; --i)
+			for (var i = bindings.Count - 1; i >= 0; --i)
 			{
 				Unbind(i, false);
 			}
-			Bindings.Clear();
+			bindings.Clear();
 		}
 
 		internal void LocateViewModel()
