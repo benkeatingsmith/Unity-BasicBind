@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace SimpleBind
 {
@@ -11,10 +12,12 @@ namespace SimpleBind
 		Type ElementType { get; }
     }
     
+    [Serializable]
 	public class DataSourceList<TElement> : DataSource<List<TElement>>, IList<TElement>, IDataSourceList
 	{
-		public int Count => value.Count;
+        public int Count => value.Count;
         public bool IsReadOnly => false;
+
         public Type ElementType => typeof(TElement);
 
         public event EventHandler<CollectionChangedEventArgs> CollectionChanged;
@@ -26,8 +29,9 @@ namespace SimpleBind
         {
         }
 
-        public DataSourceList(List<TElement> list) : base(list)
+        public DataSourceList(List<TElement> value)
         {
+            this.value = value;
         }
         
         public TElement this[int key]

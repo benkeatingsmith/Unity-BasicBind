@@ -88,8 +88,8 @@ namespace SimpleBind
 				}
 
 				var viewModelType = binding.ViewModel.GetType();
-				var dataSourceNames = ViewModelEditor.GetDataSourceFieldNames(viewModelType, allowedDataTypes).ToArray();
-				var dataSourceDescriptions = BaseDataSourceArray.Concat(ViewModelEditor.GetDataSourceDescriptions(viewModelType, allowedDataTypes)).ToArray();
+				var dataSourceNames = DataBindingReflection.GetDataSourceFieldNames(viewModelType, allowedDataTypes).ToArray();
+				var dataSourceDescriptions = BaseDataSourceArray.Concat(DataBindingReflection.GetDataSourceDescriptions(viewModelType, allowedDataTypes)).ToArray();
 
 				var index = -1;
 				if (!string.IsNullOrEmpty(dataSourceNameProp.stringValue)) index = Array.IndexOf(dataSourceNames, dataSourceNameProp.stringValue);

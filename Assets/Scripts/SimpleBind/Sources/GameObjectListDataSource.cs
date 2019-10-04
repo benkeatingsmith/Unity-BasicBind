@@ -3,6 +3,5 @@ using UnityEngine;
 
 namespace SimpleBind
 {
-	[Serializable]
-	public class GameObjectListDataSource : DataSourceList<GameObject> { }
+	[Serializable] public class GameObjectListDataSource : DataSourceList<GameObject> { }
 }

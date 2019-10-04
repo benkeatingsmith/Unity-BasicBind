@@ -517,6 +517,8 @@ MonoBehaviour:
     value: 1
   DisplayedText:
     value: Tralala
+  Prefabs:
+    value: []
 --- !u!4 &1139488517
 Transform:
   m_ObjectHideFlags: 0
