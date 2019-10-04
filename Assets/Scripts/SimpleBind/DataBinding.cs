@@ -25,13 +25,15 @@ namespace SimpleBind
 
 		public ViewModel ViewModel;
 
+		protected bool UnbindOnDisable = true;
+		protected bool UnbindOnDestroy = true;
+
 		private readonly List<Entry> bindings = new List<Entry>();
 
-		private void OnEnable()
+		protected virtual void OnEnable()
 		{
 			if (!ViewModel) LocateViewModel();
-			UnbindAll();
-			Setup();
+			Rebind();
 		}
 
 		protected abstract void Setup();
@@ -58,9 +60,14 @@ namespace SimpleBind
 			Unbind(idx, true);
 		}
 
-		private void OnDisable()
+		protected virtual void OnDisable()
 		{
-			UnbindAll();
+			if (UnbindOnDisable) UnbindAll();
+		}
+
+		protected virtual void OnDestroy()
+		{
+			if (UnbindOnDestroy) UnbindAll();
 		}
 
 		private void Unbind(int bindingEntryIdx, bool removeEntry)
@@ -82,6 +89,12 @@ namespace SimpleBind
 		internal void LocateViewModel()
 		{
 			ViewModel = GetComponentInParent<ViewModel>();
+		}
+
+		internal void Rebind()
+		{
+			UnbindAll();
+			Setup();
 		}
 	}
 

@@ -25,7 +25,11 @@ namespace SimpleBind
 				{
 					cachedViewModel = viewModel;
 					cachedDataSourceName = dataSourceName;
-					if (viewModel == null || string.IsNullOrEmpty(dataSourceName)) return null;
+					if (viewModel == null || string.IsNullOrEmpty(dataSourceName))
+					{
+						source = null;
+						return null;
+					}
 					var field = viewModel.GetType().GetField(dataSourceName);
 					if (field != null)
 					{
@@ -71,16 +75,16 @@ namespace SimpleBind
 			{
 				var viewModelProp = property.FindPropertyRelative("viewModel");
 				var dataSourceNameProp = property.FindPropertyRelative("dataSourceName");
-
-				var viewModelType = binding.ViewModel.GetType();
-				var dataSourceNames = ViewModelEditor.GetDataSourceFieldNames(viewModelType).ToArray();
 				
 				Type[] allowedDataTypes = null;
-				var dataSourceReferenceAttribute = fieldInfo.GetCustomAttribute<DataSourceReferenceAttribute>();
+				var dataSourceReferenceAttribute = fieldInfo.GetCustomAttribute<AllowedDataTypesAttribute>();
 				if (dataSourceReferenceAttribute != null)
 				{
 					allowedDataTypes = dataSourceReferenceAttribute.AllowedDataTypes;
 				}
+
+				var viewModelType = binding.ViewModel.GetType();
+				var dataSourceNames = ViewModelEditor.GetDataSourceFieldNames(viewModelType, allowedDataTypes).ToArray();
 				var dataSourceDescriptions = BaseDataSourceArray.Concat(ViewModelEditor.GetDataSourceDescriptions(viewModelType, allowedDataTypes)).ToArray();
 
 				var index = -1;
@@ -92,7 +96,12 @@ namespace SimpleBind
 				viewModelProp.objectReferenceValue = binding.ViewModel;
 				index = EditorGUI.Popup(new Rect(position.x, position.y, position.width, lineHeight), index, dataSourceDescriptions);
 				dataSourceNameProp.stringValue = index == 0 ? null : dataSourceNames[index - 1];
-				if (EditorGUI.EndChangeCheck()) property.serializedObject.ApplyModifiedProperties();
+
+				if (EditorGUI.EndChangeCheck())
+				{
+					property.serializedObject.ApplyModifiedProperties();
+					binding.Rebind();
+				}
 			}
 
 			EditorGUI.indentLevel = indent;

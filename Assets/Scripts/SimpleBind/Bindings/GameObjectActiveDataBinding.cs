@@ -5,10 +5,11 @@ namespace SimpleBind
 	public class GameObjectActiveDataBinding : DataBinding
 	{
 		public GameObject Target;
-		[DataSourceReference(typeof(bool))] public DataSourceReference BoolSource;
+		[AllowedDataTypes(typeof(bool))] public DataSourceReference BoolSource;
 
 		protected override void Setup()
 		{
+			UnbindOnDisable = false;
 			Bind(BoolSource, OnValueChanged);
 		}
 

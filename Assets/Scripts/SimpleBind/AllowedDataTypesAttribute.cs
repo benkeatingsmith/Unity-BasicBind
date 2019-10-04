@@ -2,11 +2,11 @@ using System;
 
 namespace SimpleBind
 {
-	public class DataSourceReferenceAttribute : Attribute
+	public class AllowedDataTypesAttribute : Attribute
 	{
 		public Type[] AllowedDataTypes { get; }
         
-		public DataSourceReferenceAttribute(params Type[] allowedDataTypes)
+		public AllowedDataTypesAttribute(params Type[] allowedDataTypes)
 		{
 			AllowedDataTypes = allowedDataTypes;
 		}

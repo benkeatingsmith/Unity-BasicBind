@@ -6,7 +6,7 @@ namespace SimpleBind
 	public class ImageSpriteDataBinding : DataBinding
 	{
 		public Image Image;
-		[DataSourceReference(typeof(Sprite))] public DataSourceReference SpriteSource;
+		[AllowedDataTypes(typeof(Sprite))] public DataSourceReference SpriteSource;
 
 		protected override void Setup()
 		{

@@ -6,7 +6,7 @@ namespace SimpleBind
 	public class TMProTextDataBinding : DataBinding
 	{
 		public TMP_Text TextField;
-		[DataSourceReference(typeof(string))] public DataSourceReference StringSource;
+		[AllowedDataTypes(typeof(string))] public DataSourceReference StringSource;
 
 		protected override void Setup()
 		{

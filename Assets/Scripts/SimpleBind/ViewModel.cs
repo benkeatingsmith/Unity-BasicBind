@@ -25,18 +25,17 @@ namespace SimpleBind
 			return viewModelType.GetFields().Where(f => f.IsPublic && f.FieldType.IsSubclassOfRawGeneric(typeof(DataSource<>)));
 		}
 
-		public static IEnumerable<string> GetDataSourceFieldNames(Type viewModelType)
+		public static IEnumerable<string> GetDataSourceFieldNames(Type viewModelType, Type[] allowedDataTypes = null)
 		{
-			return GetDataSourceFields(viewModelType).Select(x => x.Name);
+			return GetDataSourceFields(viewModelType)
+				.Where(fieldInfo => allowedDataTypes == null || allowedDataTypes.Contains(GetDataSourceElementType(fieldInfo)))
+				.Select(x => x.Name);
 		}
 
 		public static IEnumerable<string> GetDataSourceDescriptions(Type viewModelType, Type[] allowedDataTypes = null)
 		{
 			return GetDataSourceFields(viewModelType)
-				.Where(fieldInfo =>
-				{
-					return allowedDataTypes == null || allowedDataTypes.Contains(GetDataSourceElementType(fieldInfo));
-				})
+				.Where(fieldInfo => allowedDataTypes == null || allowedDataTypes.Contains(GetDataSourceElementType(fieldInfo)))
 				.Select(GetDataSourceDescription);
 		}
 

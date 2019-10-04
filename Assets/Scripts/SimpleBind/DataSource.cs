@@ -16,6 +16,7 @@ namespace SimpleBind
 		T GetValue<T>();
 	}
 
+	[Serializable]
 	public class DataSource<T> : IDataSource
 	{
 		public event Action Changed;
