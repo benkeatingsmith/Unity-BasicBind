@@ -15,6 +15,7 @@ using UnityEditor;
 
 namespace SimpleBind
 {
+	[ExecuteInEditMode]
 	public abstract class DataBinding : MonoBehaviour
 	{
 		private struct Entry
@@ -58,12 +59,6 @@ namespace SimpleBind
 			Unbind(idx, true);
 		}
 
-		private void OnValidate()
-		{
-			UnbindAll();
-			Setup();
-		}
-
 		private void OnDisable()
 		{
 			UnbindAll();
@@ -73,12 +68,12 @@ namespace SimpleBind
 		{
 			var entry = Bindings[bindingEntryIdx];
 			if (entry.DataSourceReference.Source != null) entry.DataSourceReference.Source.Changed -= entry.Handler;
-			if (removeEntry) Bindings.RemoveAt(bindingEntryIdx);
+			if (removeEntry) Bindings.EraseSwap(bindingEntryIdx);
 		}
 
 		private void UnbindAll()
 		{
-			for (var i = 0; i < Bindings.Count; i++)
+			for (var i = Bindings.Count - 1; i >= 0; --i)
 			{
 				Unbind(i, false);
 			}
