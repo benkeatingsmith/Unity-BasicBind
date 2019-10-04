@@ -1,8 +1,5 @@
 using System;
 using UnityEngine;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 
 namespace SimpleBind
 {
@@ -15,7 +12,9 @@ namespace SimpleBind
 		void SetValue(object value);
 		T GetValue<T>();
 		
+		#if UNITY_EDITOR
 		void InvokeChanged();
+		#endif
 	}
 
 	/// <summary>
@@ -70,38 +69,11 @@ namespace SimpleBind
 			return (T1) Convert.ChangeType(value, typeof(T1));
 		}
 
+		#if UNITY_EDITOR
 		public void InvokeChanged()
 		{
 			Changed?.Invoke(this, EventArgs.Empty);
 		}
+		#endif
 	}
-	
-#if UNITY_EDITOR
-	// Do not draw data sources in inspector individually.
-	// Instead, View Models have special rendering code for data sources.
-	[CustomPropertyDrawer(typeof(IDataSource), true)]
-	public class DataSourcePropertyDrawer : PropertyDrawer
-	{
-		public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
-		{
-			var valueProp = property.FindPropertyRelative("value");
-			if (valueProp != null)
-			{
-				EditorGUI.BeginChangeCheck();
-				EditorGUI.PropertyField(position, valueProp, label, true);
-				if (EditorGUI.EndChangeCheck())
-				{
-					property.serializedObject.ApplyModifiedProperties();
-					var dataSource = (IDataSource) fieldInfo.GetValue(property.serializedObject.targetObject);
-					dataSource.InvokeChanged();
-				}
-			}
-		}
-		public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
-		{
-			var valueProp = property.FindPropertyRelative("value");
-			return EditorGUI.GetPropertyHeight(valueProp);
-		}
-	}
-#endif
 }

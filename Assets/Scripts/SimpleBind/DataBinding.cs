@@ -1,14 +1,14 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 
-// TODO Filter data sources by bind type
 // TODO Support collections
+// TODO Move sources into single file? 
+// TODO Support all built-in value types as sources
+// TODO Move Bindings out of core namespace
 // TODO Cache reflection data
 // TODO Performance testing
+// TODO Remove special array dependency 
 // TODO GitHub
 // TODO Readme
 
@@ -92,32 +92,17 @@ namespace SimpleBind
 			bindings.Clear();
 		}
 
-		internal void LocateViewModel()
+		#if UNITY_EDITOR
+		public void LocateViewModel()
 		{
 			ViewModel = GetComponentInParent<ViewModel>();
 		}
 
-		internal void Rebind()
+		public void Rebind()
 		{
 			UnbindAll();
 			Setup();
 		}
+		#endif
 	}
-
-#if UNITY_EDITOR
-	[CustomEditor(typeof(DataBinding), true)]
-	[CanEditMultipleObjects]
-	public class DataBindingEditor : Editor
-	{
-		public override void OnInspectorGUI()
-		{
-			DrawDefaultInspector();
-
-			if (GUILayout.Button("Locate View Model"))
-			{
-				((DataBinding) target).LocateViewModel();
-			}
-		}
-	}
-#endif
 }

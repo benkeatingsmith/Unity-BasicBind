@@ -5,16 +5,16 @@ using System.Reflection;
 
 namespace SimpleBind
 {
-	internal static class DataBindingReflection
+	public static class DataBindingReflection
 	{
-		internal static IEnumerable<string> GetDataSourceFieldNames(Type viewModelType, Type[] allowedDataTypes = null)
+		public static IEnumerable<string> GetDataSourceFieldNames(Type viewModelType, Type[] allowedDataTypes = null)
 		{
 			return GetDataSourceFields(viewModelType)
 				.Where(fieldInfo => allowedDataTypes == null || allowedDataTypes.Contains(GetDataSourceElementType(fieldInfo)))
 				.Select(x => x.Name);
 		}
 
-		internal static IEnumerable<string> GetDataSourceDescriptions(Type viewModelType, Type[] allowedDataTypes = null)
+		public static IEnumerable<string> GetDataSourceDescriptions(Type viewModelType, Type[] allowedDataTypes = null)
 		{
 			return GetDataSourceFields(viewModelType)
 				.Where(fieldInfo => allowedDataTypes == null || allowedDataTypes.Contains(GetDataSourceElementType(fieldInfo)))
