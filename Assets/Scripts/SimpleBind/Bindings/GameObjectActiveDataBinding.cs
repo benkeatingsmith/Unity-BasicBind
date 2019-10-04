@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace SimpleBind
@@ -13,7 +14,7 @@ namespace SimpleBind
 			Bind(BoolSource, OnValueChanged);
 		}
 
-		private void OnValueChanged()
+		private void OnValueChanged(object sender, EventArgs eventArgs)
 		{
 			if (BoolSource != null && BoolSource.TryGetValue<bool>(out var value))
 			{

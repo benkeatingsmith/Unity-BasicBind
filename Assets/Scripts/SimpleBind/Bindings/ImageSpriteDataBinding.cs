@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,7 +15,7 @@ namespace SimpleBind
 			Bind(SpriteSource, UpdateImage);
 		}
 
-		private void UpdateImage()
+		private void UpdateImage(object sender, EventArgs eventArgs)
 		{
 			Image.sprite = ((DataSource<Sprite>) SpriteSource.Source).Value;
 		}

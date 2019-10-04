@@ -26,7 +26,7 @@ namespace SimpleBind
 		private struct Entry
 		{
 			public DataSourceReference DataSourceReference;
-			public Action Handler;
+			public EventHandler Handler;
 		}
 
 		public ViewModel ViewModel;
@@ -44,7 +44,7 @@ namespace SimpleBind
 
 		protected abstract void Setup();
 
-		protected void Bind(DataSourceReference dataSourceReference, Action handler)
+		protected void Bind(DataSourceReference dataSourceReference, EventHandler handler)
 		{
 			if (dataSourceReference?.Source == null) return;
 
@@ -55,7 +55,7 @@ namespace SimpleBind
 			});
 			
 			dataSourceReference.Source.Changed += handler;
-			handler?.Invoke();
+			handler?.Invoke(this, EventArgs.Empty);
 		}
 
 		protected void Unbind(DataSourceReference dataSourceReference)

@@ -4,4 +4,5 @@ public class SampleViewModel : ViewModel
 {
 	public BoolDataSource IsActive;
 	public StringDataSource DisplayedText;
+	public GameObjectListDataSource Prefabs;
 }

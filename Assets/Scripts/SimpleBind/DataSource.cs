@@ -8,7 +8,7 @@ namespace SimpleBind
 {
 	public interface IDataSource
 	{
-		event Action Changed;
+		event EventHandler Changed;
 
 		Type DataType { get; }
 
@@ -24,7 +24,7 @@ namespace SimpleBind
 	[Serializable]
 	public class DataSource<TData> : IDataSource
 	{
-		public event Action Changed;
+		public event EventHandler Changed;
 
 		public Type DataType => typeof(TData);
 
@@ -35,10 +35,10 @@ namespace SimpleBind
 			{
 				if (Equals(value, this.value)) return;
 				this.value = value;
-				Changed?.Invoke();
+				InvokeChanged();
 			}
 		}
-		[SerializeField] private TData value; 
+		[SerializeField] protected TData value; 
 
 		public DataSource(TData value = default)
 		{
@@ -67,8 +67,14 @@ namespace SimpleBind
 			if (DataType.IsClass && typeof(T1).IsClass) return (T1) (object) value;
 			return (T1) Convert.ChangeType(value, typeof(T1));
 		}
+
+		protected void InvokeChanged()
+		{
+			Changed?.Invoke(this, EventArgs.Empty);
+		}
 	}
 	
+	/*
 #if UNITY_EDITOR
 	// Do not draw data sources in inspector individually.
 	// Instead, View Models have special rendering code for data sources.
@@ -79,4 +85,5 @@ namespace SimpleBind
 		public override float GetPropertyHeight(SerializedProperty property, GUIContent label) => 0;
 	}
 #endif
+*/
 }

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine.UI;
 
 namespace SimpleBind
@@ -12,7 +13,7 @@ namespace SimpleBind
 			Bind(StringSource, OnValueChanged);
 		}
 
-		private void OnValueChanged()
+		private void OnValueChanged(object sender, EventArgs eventArgs)
 		{
 			if (StringSource != null && StringSource.TryGetValue<string>(out var value))
 			{
