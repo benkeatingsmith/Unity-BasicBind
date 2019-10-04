@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Reflection;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -73,7 +74,14 @@ namespace SimpleBind
 
 				var viewModelType = binding.ViewModel.GetType();
 				var dataSourceNames = ViewModelEditor.GetDataSourceFieldNames(viewModelType).ToArray();
-				var dataSourceDescriptions = BaseDataSourceArray.Concat(ViewModelEditor.GetDataSourceDescriptions(viewModelType)).ToArray();
+				
+				Type[] allowedDataTypes = null;
+				var dataSourceReferenceAttribute = fieldInfo.GetCustomAttribute<DataSourceReferenceAttribute>();
+				if (dataSourceReferenceAttribute != null)
+				{
+					allowedDataTypes = dataSourceReferenceAttribute.AllowedDataTypes;
+				}
+				var dataSourceDescriptions = BaseDataSourceArray.Concat(ViewModelEditor.GetDataSourceDescriptions(viewModelType, allowedDataTypes)).ToArray();
 
 				var index = -1;
 				if (!string.IsNullOrEmpty(dataSourceNameProp.stringValue)) index = Array.IndexOf(dataSourceNames, dataSourceNameProp.stringValue);

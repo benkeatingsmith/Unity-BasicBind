@@ -5,7 +5,7 @@ namespace SimpleBind
 	public class TextFieldTextDataBinding : DataBinding
 	{
 		public Text TextField;
-		public DataSourceReference StringSource;
+		[DataSourceReference(typeof(string))] public DataSourceReference StringSource;
 
 		protected override void Setup()
 		{

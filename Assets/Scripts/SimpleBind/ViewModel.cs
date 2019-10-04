@@ -30,17 +30,27 @@ namespace SimpleBind
 			return GetDataSourceFields(viewModelType).Select(x => x.Name);
 		}
 
-		public static IEnumerable<string> GetDataSourceDescriptions(Type viewModelType)
+		public static IEnumerable<string> GetDataSourceDescriptions(Type viewModelType, Type[] allowedDataTypes = null)
 		{
-			return GetDataSourceFields(viewModelType).Select(GetDataSourceDescription);
+			return GetDataSourceFields(viewModelType)
+				.Where(fieldInfo =>
+				{
+					return allowedDataTypes == null || allowedDataTypes.Contains(GetDataSourceElementType(fieldInfo));
+				})
+				.Select(GetDataSourceDescription);
 		}
 
 		public static string GetDataSourceDescription(FieldInfo field)
 		{
 			//TODO cache this
-			var dataSourceType = field.FieldType.GetSubclassMatchingRawGeneric(typeof(DataSource<>));
-			var typeName = dataSourceType?.GetGenericArguments().First()?.Name ?? "Type Missing";
+			var typeName = GetDataSourceElementType(field)?.Name ?? "Type Missing";
 			return $"{field.Name} : {typeName}";
+		}
+
+		public static Type GetDataSourceElementType(FieldInfo field)
+		{
+			var dataSourceType = field.FieldType.GetSubclassMatchingRawGeneric(typeof(DataSource<>));
+			return dataSourceType?.GetGenericArguments().FirstOrDefault();
 		}
 
 		public override void OnInspectorGUI()
