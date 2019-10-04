@@ -14,6 +14,12 @@ using UnityEditor;
 
 namespace SimpleBind
 {
+	/// <summary>
+	/// DataBindings are components which observe DataSources and can execute logic when they change.
+	/// Each DataBinding should contain DataSourceReferences which allow for the binding of DataSources on specific ViewModels.
+	/// The ViewModel for DataBindings can be explicitly set or can be located (by searching upwards from the
+	/// DataBinding owner) using the 'Locate View Model' button in the inspector.
+	/// </summary>
 	[ExecuteInEditMode]
 	public abstract class DataBinding : MonoBehaviour
 	{

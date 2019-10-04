@@ -8,6 +8,10 @@ using UnityEngine;
 
 namespace SimpleBind
 {
+	/// <summary>
+	/// Enables serialization of data source references on specific ViewModels.
+	/// Use DataSourceReference objects on your DataBinding components to create serializable bindings.
+	/// </summary>
 	[Serializable]
 	public class DataSourceReference
 	{

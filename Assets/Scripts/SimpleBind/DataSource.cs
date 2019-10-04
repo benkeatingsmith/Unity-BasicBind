@@ -16,14 +16,19 @@ namespace SimpleBind
 		T GetValue<T>();
 	}
 
+	/// <summary>
+	/// DataSources are wrappers around data that emit Changed events when the wrapped data is modified.
+	/// DataBindings bind to individual DataSources in order to run logic on data changes.
+	/// </summary>
+	/// <typeparam name="TData">Type of wrapped data</typeparam>
 	[Serializable]
-	public class DataSource<T> : IDataSource
+	public class DataSource<TData> : IDataSource
 	{
 		public event Action Changed;
 
-		public Type DataType => typeof(T);
+		public Type DataType => typeof(TData);
 
-		public T Value
+		public TData Value
 		{
 			get => value;
 			set
@@ -33,25 +38,25 @@ namespace SimpleBind
 				Changed?.Invoke();
 			}
 		}
-		[SerializeField] private T value; 
+		[SerializeField] private TData value; 
 
-		public DataSource(T value = default)
+		public DataSource(TData value = default)
 		{
 			this.value = value;
 		}
 
 		public void SetValue(object value)
 		{
-			T convertedValue = default;
+			TData convertedValue = default;
 			if (value != null)
 			{
 				if (value.GetType().IsClass && DataType.IsClass)
 				{
-					convertedValue = (T) value;
+					convertedValue = (TData) value;
 				}
 				else
 				{
-					convertedValue = (T) Convert.ChangeType(value, DataType);
+					convertedValue = (TData) Convert.ChangeType(value, DataType);
 				}
 			}
 			Value = convertedValue;
