@@ -1,9 +1,6 @@
 # Todo Items
-- List example
 - Enum example
 - Consider which bindings should be in core module
-- Cache reflection data
-- Performance testing
 - New github account
 - PR for garret's thing
 - Remove special array dependency 

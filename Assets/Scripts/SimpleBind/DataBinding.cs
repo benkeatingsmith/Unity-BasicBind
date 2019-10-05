@@ -18,6 +18,7 @@ namespace SimpleBind
 			public DataSourceReference DataSourceReference;
 			public EventHandler Handler;
 			public EventHandler<CollectionChangedEventArgs> CollectionHandler;
+			public Action UnbindCallback;
 		}
 
 		public ViewModel ViewModel;
@@ -35,28 +36,30 @@ namespace SimpleBind
 
 		protected abstract void Setup();
 
-		protected void Bind(DataSourceReference dataSourceReference, EventHandler handler)
+		protected void Bind(DataSourceReference dataSourceReference, EventHandler handler, Action unbindCallback = null)
 		{
 			if (dataSourceReference?.Source == null) return;
 
 			bindings.Add(new Entry
 			{
 				DataSourceReference = dataSourceReference,
-				Handler = handler
+				Handler = handler,
+				UnbindCallback = unbindCallback
 			});
 			
 			dataSourceReference.Source.Changed += handler;
 			handler?.Invoke(this, EventArgs.Empty);
 		}
-		
-		protected void BindCollection(DataSourceReference dataSourceReference,  EventHandler<CollectionChangedEventArgs> handler)
+
+		protected void BindCollection(DataSourceReference dataSourceReference, EventHandler<CollectionChangedEventArgs> handler, Action unbindCallback = null)
 		{
 			if (!(dataSourceReference?.Source is IDataSourceList dataSourceList)) return;
 
 			bindings.Add(new Entry
 			{
 				DataSourceReference = dataSourceReference,
-				CollectionHandler = handler
+				CollectionHandler = handler,
+				UnbindCallback = unbindCallback
 			});
 			
 			dataSourceList.CollectionChanged += handler;
@@ -101,6 +104,7 @@ namespace SimpleBind
 			{
 				dataSource.Changed -= entry.Handler;
 			}
+			entry.UnbindCallback?.Invoke();
 			if (removeEntry) bindings.EraseSwap(bindingEntryIdx);
 		}
 

@@ -14,7 +14,7 @@ public class PrefabCollectionDataBinding : DataBinding
 	
 	protected override void Setup()
 	{
-		BindCollection(CollectionSource, OnCollectionChanged);
+		BindCollection(CollectionSource, OnCollectionChanged, OnCollectionUnbound);
 	}
 
 	private void OnCollectionChanged(object sender, CollectionChangedEventArgs evt)
@@ -43,13 +43,17 @@ public class PrefabCollectionDataBinding : DataBinding
 			}
 			case CollectionChangedEventArgs.ChangeTypes.Cleared:
 			{
-				while (Root.transform.childCount > 0) DestroyInstance(Root.transform.GetChild(0).gameObject);
-				instances.Clear();
+				ClearInstances();
 				break;	
 			}
 			default:
 				throw new ArgumentOutOfRangeException();
 		}
+	}
+
+	private void OnCollectionUnbound()
+	{
+		ClearInstances();
 	}
 	
 	private GameObject TryGetChildAt(Transform parent, int index)
@@ -81,5 +85,11 @@ public class PrefabCollectionDataBinding : DataBinding
 		{
 			DestroyImmediate(instance);
 		}
+	}
+
+	private void ClearInstances()
+	{
+		while (Root.transform.childCount > 0) DestroyInstance(Root.transform.GetChild(0).gameObject);
+		instances.Clear();
 	}
 }
