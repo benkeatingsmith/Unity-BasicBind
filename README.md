@@ -4,6 +4,8 @@
 
 Basic Bind is a simple data binding system which enables one-way data binding from observable model data to view components.
 
+![](example.gif)
+
 ## Installation
 ### Manual Import
 1. Clone or dowload this repository somewhere in your Unity project's `Assets` folder.
