@@ -1,8 +1,7 @@
 # Todo Items
-- Data binding example for collection
-- View Model collection element (prefab)
-- Support all built-in value types as sources
-- Move Bindings out of core namespace
+- List example
+- Enum example
+- Consider which bindings should be in core module
 - Cache reflection data
 - Performance testing
 - New github account

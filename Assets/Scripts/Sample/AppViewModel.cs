@@ -1,8 +1,8 @@
 using SimpleBind;
 
-public class SampleViewModel : ViewModel
+public class AppViewModel : ViewModel
 {
 	public BoolDataSource IsActive;
 	public StringDataSource DisplayedText;
-	public GameObjectListDataSource Prefabs;
+	public ListItemDataSourceList ListItems;
 }

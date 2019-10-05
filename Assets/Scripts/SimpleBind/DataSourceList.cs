@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace SimpleBind
 {
-    public interface IDataSourceList : IDataSource
+    public interface IDataSourceList : IDataSource, IEnumerable
     {
         event EventHandler<CollectionChangedEventArgs> CollectionChanged;
 

@@ -17,6 +17,7 @@ namespace SimpleBind
 		{
 			public DataSourceReference DataSourceReference;
 			public EventHandler Handler;
+			public EventHandler<CollectionChangedEventArgs> CollectionHandler;
 		}
 
 		public ViewModel ViewModel;
@@ -47,6 +48,25 @@ namespace SimpleBind
 			dataSourceReference.Source.Changed += handler;
 			handler?.Invoke(this, EventArgs.Empty);
 		}
+		
+		protected void BindCollection(DataSourceReference dataSourceReference,  EventHandler<CollectionChangedEventArgs> handler)
+		{
+			if (!(dataSourceReference?.Source is IDataSourceList dataSourceList)) return;
+
+			bindings.Add(new Entry
+			{
+				DataSourceReference = dataSourceReference,
+				CollectionHandler = handler
+			});
+			
+			dataSourceList.CollectionChanged += handler;
+
+			var i = 0;
+			foreach (var item in dataSourceList)
+			{
+				handler.Invoke(dataSourceList, CollectionChangedEventArgs.ItemAdded(item, i++));
+			}
+		}
 
 		protected void Unbind(DataSourceReference dataSourceReference)
 		{
@@ -69,7 +89,18 @@ namespace SimpleBind
 		private void Unbind(int bindingEntryIdx, bool removeEntry)
 		{
 			var entry = bindings[bindingEntryIdx];
-			if (entry.DataSourceReference.Source != null) entry.DataSourceReference.Source.Changed -= entry.Handler;
+			if (entry.DataSourceReference.Source is IDataSourceList dataSourceList)
+			{
+				dataSourceList.CollectionChanged -= entry.CollectionHandler;
+				foreach (var item in dataSourceList)
+				{
+					entry.CollectionHandler.Invoke(dataSourceList, CollectionChangedEventArgs.ItemRemoved(item, 0));
+				}
+			}
+			else if (entry.DataSourceReference.Source is IDataSource dataSource)
+			{
+				dataSource.Changed -= entry.Handler;
+			}
 			if (removeEntry) bindings.EraseSwap(bindingEntryIdx);
 		}
 
