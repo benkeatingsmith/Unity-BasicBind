@@ -2,7 +2,10 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-// TODO Support collections
+// TODO new github account
+// TODO PR for garret's thing
+// TODO Data binding example for collection
+// TODO View Model collection element (prefab)
 // TODO Move sources into single file? 
 // TODO Support all built-in value types as sources
 // TODO Move Bindings out of core namespace

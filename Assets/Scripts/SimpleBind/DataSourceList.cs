@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace SimpleBind
 {
@@ -10,6 +9,10 @@ namespace SimpleBind
         event EventHandler<CollectionChangedEventArgs> CollectionChanged;
 
 		Type ElementType { get; }
+        
+        #if UNITY_EDITOR
+        void NotifyChanges(IList<object> oldValues);
+        #endif
     }
     
     [Serializable]
@@ -41,7 +44,7 @@ namespace SimpleBind
             {
                 if (EqualityComparer<TElement>.Default.Equals(this.value[key], value)) return;
                 this.value[key] = value;
-                CollectionChanged?.Invoke(this, CollectionChangedEventArgs.ItemChanged(value, key));
+                InvokeChanged(CollectionChangedEventArgs.ItemChanged(value, key));
             }
         }
 
@@ -53,13 +56,13 @@ namespace SimpleBind
         public void Add(TElement item)
         {
             value.Add(item);
-            CollectionChanged?.Invoke(this, CollectionChangedEventArgs.ItemChanged(item, value.Count - 1));
+            InvokeChanged(CollectionChangedEventArgs.ItemChanged(item, value.Count - 1));
         }
 
         public void Insert(int index, TElement item)
         {
             value.Insert(index, item);
-            CollectionChanged?.Invoke(this, CollectionChangedEventArgs.ItemChanged(item, index));
+            InvokeChanged(CollectionChangedEventArgs.ItemChanged(item, index));
         }
 
         public bool Remove(TElement item)
@@ -67,7 +70,7 @@ namespace SimpleBind
             var index = value.IndexOf(item);
             if (index == -1) return false;
             value.RemoveAt(index);
-            CollectionChanged?.Invoke(this, CollectionChangedEventArgs.ItemChanged(item, index));
+            InvokeChanged(CollectionChangedEventArgs.ItemChanged(item, index));
             return true;
         }
 
@@ -75,7 +78,7 @@ namespace SimpleBind
         {
             var item = value[index];
             value.RemoveAt(index);
-            CollectionChanged?.Invoke(this, CollectionChangedEventArgs.ItemChanged(item, index));
+            InvokeChanged(CollectionChangedEventArgs.ItemChanged(item, index));
         }
 
         public bool Contains(TElement item)
@@ -91,7 +94,48 @@ namespace SimpleBind
         public void Clear()
         {
             value.Clear();
-            CollectionChanged?.Invoke(this, CollectionChangedEventArgs.Cleared());
+            InvokeChanged(CollectionChangedEventArgs.Cleared());
         }
+
+        private void InvokeChanged(CollectionChangedEventArgs args)
+        {
+            CollectionChanged?.Invoke(this, args);
+        }
+        
+        #if UNITY_EDITOR
+        public void NotifyChanges(IList<object> oldValues)
+        {
+            var itemWasAdded = value.Count > oldValues.Count;
+            var itemWasRemoved = value.Count < oldValues.Count;
+            
+            var maxItems = Math.Max(value.Count, oldValues.Count);
+            for (var i = 0; i < maxItems; ++i)
+            {
+                var oldElement = i < oldValues.Count ? oldValues[i] : null;
+                var newElement = i < value.Count ? (object)value[i] : null;
+                var elementsMatch = newElement == oldElement;
+                
+                // Item was removed
+                if (itemWasRemoved && !elementsMatch)
+                {
+                    InvokeChanged(CollectionChangedEventArgs.ItemRemoved(oldElement, i));
+                    break;
+                }
+
+                // Item was added
+                if (itemWasAdded && !elementsMatch)
+                {
+                    InvokeChanged(CollectionChangedEventArgs.ItemAdded(newElement, i));
+                    break;
+                }
+                
+                // Items was changed in-place
+                if (!elementsMatch)
+                {
+                    InvokeChanged(CollectionChangedEventArgs.ItemChanged(newElement, i));
+                }
+            }
+        }
+        #endif
     }
 }

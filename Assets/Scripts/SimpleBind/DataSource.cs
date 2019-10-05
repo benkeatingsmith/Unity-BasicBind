@@ -13,7 +13,7 @@ namespace SimpleBind
 		T GetValue<T>();
 		
 		#if UNITY_EDITOR
-		void InvokeChanged();
+		void NotifyChanged();
 		#endif
 	}
 
@@ -36,7 +36,7 @@ namespace SimpleBind
 			{
 				if (Equals(value, this.value)) return;
 				this.value = value;
-				InvokeChanged();
+				NotifyChanged();
 			}
 		}
 		[SerializeField] protected TData value; 
@@ -63,14 +63,15 @@ namespace SimpleBind
 			Value = convertedValue;
 		}
 
-		public T1 GetValue<T1>()
+		public T GetValue<T>()
 		{
-			if (DataType.IsClass && typeof(T1).IsClass) return (T1) (object) value;
-			return (T1) Convert.ChangeType(value, typeof(T1));
+			var targetType = typeof(T);
+			if (DataType.IsClass && targetType.IsClass || targetType == typeof(object)) return (T) (object) value;
+			return (T) Convert.ChangeType(value, typeof(T));
 		}
 
 		#if UNITY_EDITOR
-		public void InvokeChanged()
+		public void NotifyChanged()
 		{
 			Changed?.Invoke(this, EventArgs.Empty);
 		}

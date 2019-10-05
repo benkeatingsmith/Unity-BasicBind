@@ -301,7 +301,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Tralala
+  m_Text: This text is data bound
 --- !u!222 &595655665
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -516,7 +516,7 @@ MonoBehaviour:
   IsActive:
     value: 1
   DisplayedText:
-    value: Tralala
+    value: This text is data bound
   Prefabs:
     value: []
 --- !u!4 &1139488517
