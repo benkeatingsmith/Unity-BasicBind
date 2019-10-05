@@ -28,7 +28,7 @@ namespace SimpleBind
 			}
 		}
 
-		private void InvokeChangedEvents(IDataSource dataSource, object oldValue)
+		private static void InvokeChangedEvents(IDataSource dataSource, object oldValue)
 		{
 			if (dataSource is IDataSourceList dataSourceList)
 			{

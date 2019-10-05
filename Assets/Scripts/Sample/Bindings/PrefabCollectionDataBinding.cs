@@ -14,6 +14,7 @@ public class PrefabCollectionDataBinding : DataBinding
 	
 	protected override void Setup()
 	{
+		ClearInstances();
 		BindCollection(CollectionSource, OnCollectionChanged, OnCollectionUnbound);
 	}
 
