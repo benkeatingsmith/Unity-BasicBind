@@ -9,21 +9,25 @@ namespace SimpleBind
 	{
 		public static IEnumerable<string> GetDataSourceFieldNames(Type viewModelType, Type[] allowedDataTypes = null)
 		{
-			return GetDataSourceFields(viewModelType)
-				.Where(fieldInfo => allowedDataTypes == null || allowedDataTypes.Contains(GetDataSourceElementType(fieldInfo)))
+			return GetDataSourceFields(viewModelType, allowedDataTypes)
 				.Select(x => x.Name);
 		}
 
 		public static IEnumerable<string> GetDataSourceDescriptions(Type viewModelType, Type[] allowedDataTypes = null)
 		{
-			return GetDataSourceFields(viewModelType)
-				.Where(fieldInfo => allowedDataTypes == null || allowedDataTypes.Contains(GetDataSourceElementType(fieldInfo)))
+			return GetDataSourceFields(viewModelType, allowedDataTypes)
 				.Select(GetDataSourceDescription);
 		}
-		
-		private static IEnumerable<FieldInfo> GetDataSourceFields(Type viewModelType)
+
+		private static IEnumerable<FieldInfo> GetDataSourceFields(Type viewModelType, Type[] allowedDataTypes)
 		{
-			return viewModelType.GetFields().Where(f => f.IsPublic && f.FieldType.IsSubclassOfRawGeneric(typeof(DataSource<>)));
+			return viewModelType.GetFields()
+				.Where(f => f.IsPublic && f.FieldType.IsSubclassOfRawGeneric(typeof(DataSource<>)))
+				.Where(fieldInfo =>
+				{
+					var elementType = GetDataSourceElementType(fieldInfo);
+					return allowedDataTypes == null || allowedDataTypes.Any(x => x.IsAssignableFrom(elementType));
+				});
 		}
 
 		private static string GetDataSourceDescription(FieldInfo field)

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using SimpleBind;
 using UnityEngine;
@@ -7,7 +8,7 @@ public class PrefabCollectionDataBinding : DataBinding
 {
 	public Transform Root;
 	public GameObject Prefab;
-	[AllowedDataTypes(typeof(List<>))] public DataSourceReference CollectionSource;
+	[AllowedDataTypes(typeof(IList))] public DataSourceReference CollectionSource;
 	
 	private readonly List<GameObject> instances = new List<GameObject>();
 	
@@ -29,14 +30,14 @@ public class PrefabCollectionDataBinding : DataBinding
 			}
 			case CollectionChangedEventArgs.ChangeTypes.ItemRemoved:
 			{
-				var instance = Root.transform.GetChild(evt.Index);
+				var instance = TryGetChildAt(Root.transform, evt.Index);
 				if (instance) DestroyInstance(instance.gameObject);
 				instances.RemoveAt(evt.Index);
 				break;
 			}
 			case CollectionChangedEventArgs.ChangeTypes.ItemChanged:
 			{
-				var instance = Root.transform.GetChild(evt.Index);
+				var instance = TryGetChildAt(Root.transform, evt.Index);
 				if (instance) TryConfigureViewModel(instance.gameObject, evt.Item);
 				break;
 			}
@@ -49,6 +50,12 @@ public class PrefabCollectionDataBinding : DataBinding
 			default:
 				throw new ArgumentOutOfRangeException();
 		}
+	}
+	
+	private GameObject TryGetChildAt(Transform parent, int index)
+	{
+		if (index < 0 || index >= parent.childCount) return null;
+		return parent.GetChild(index).gameObject;
 	}
 
 	private GameObject NewInstance(GameObject prefab, object item)
@@ -66,6 +73,13 @@ public class PrefabCollectionDataBinding : DataBinding
 
 	private static void DestroyInstance(GameObject instance)
 	{
-		Destroy(instance);
+		if (Application.isPlaying)
+		{
+			Destroy(instance);
+		}
+		else
+		{
+			DestroyImmediate(instance);
+		}
 	}
 }

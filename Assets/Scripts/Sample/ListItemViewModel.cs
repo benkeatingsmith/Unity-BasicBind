@@ -12,8 +12,16 @@ public struct ListItemData
 [Serializable]
 public class ListItemDataSourceList : DataSourceList<ListItemData> { }
 
-public class ListItemViewModel : ViewModel
+public class ListItemViewModel : ViewModel, IViewModelConfigurable
 {
 	public StringDataSource Name;
 	public SpriteDataSource Avatar;
+	
+	public void Configure(object data)
+	{
+		if (!(data is ListItemData itemData)) return;
+		
+		Name.SetValue(itemData.Name);
+		Avatar.SetValue(itemData.Avatar);
+	}
 }
