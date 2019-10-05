@@ -1,10 +1,11 @@
 # Basic Bind (for Unity)
 
+![](example.gif)
+
 *One-way MVVM style data-binding for Unity.*
 
 Basic Bind is a simple data binding system which enables one-way data binding from observable model data to view components.
 
-![](example.gif)
 
 ## Installation
 ### Manual Import
