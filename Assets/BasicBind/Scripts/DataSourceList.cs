@@ -15,6 +15,12 @@ namespace BasicBind
 #endif
 	}
 
+	/// <summary>
+	/// DataSource that wraps a list of items.
+	/// When binding to a DataSourceList, observe the CollectionChanged event instead of the Changed event for more detailed
+	/// information on which list elements changed.
+	/// </summary>
+	/// <typeparam name="TElement">Type of list element</typeparam>
 	[Serializable]
 	public class DataSourceList<TElement> : DataSource<List<TElement>>, IList<TElement>, IDataSourceList
 	{
