@@ -37,8 +37,8 @@ namespace SimpleBind
 				}
 
 				var viewModelType = binding.ViewModel.GetType();
-				var dataSourceNames = DataBindingReflection.GetDataSourceFieldNames(viewModelType, allowedDataTypes).ToArray();
-				var dataSourceDescriptions = BaseDataSourceArray.Concat(DataBindingReflection.GetDataSourceDescriptions(viewModelType, allowedDataTypes)).ToArray();
+				var dataSourceNames = ReflectionHelpers.GetDataSourceFieldNames(viewModelType, allowedDataTypes).ToArray();
+				var dataSourceDescriptions = BaseDataSourceArray.Concat(ReflectionHelpers.GetDataSourceDescriptions(viewModelType, allowedDataTypes)).ToArray();
 
 				var index = -1;
 				if (!string.IsNullOrEmpty(dataSourceNameProp.stringValue)) index = Array.IndexOf(dataSourceNames, dataSourceNameProp.stringValue);
