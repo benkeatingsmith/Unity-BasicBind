@@ -1,0 +1,12 @@
+# Todo Items
+- Data binding example for collection
+- View Model collection element (prefab)
+- Support all built-in value types as sources
+- Move Bindings out of core namespace
+- Cache reflection data
+- Performance testing
+- New github account
+- PR for garret's thing
+- Remove special array dependency 
+- GitHub
+- Readme
