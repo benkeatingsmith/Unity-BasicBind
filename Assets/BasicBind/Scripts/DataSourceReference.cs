@@ -1,5 +1,4 @@
 using System;
-using JetBrains.Annotations;
 using UnityEngine;
 
 namespace BasicBind
@@ -11,8 +10,8 @@ namespace BasicBind
 	[Serializable]
 	public class DataSourceReference
 	{
-		[SerializeField] [HideInInspector] [UsedImplicitly] private ViewModel viewModel;
-		[SerializeField] [HideInInspector] [UsedImplicitly] private string dataSourceName;
+		[SerializeField] [HideInInspector] ViewModel viewModel;
+		[SerializeField] [HideInInspector] string dataSourceName;
 
 		private ViewModel cachedViewModel;
 		private string cachedDataSourceName;
