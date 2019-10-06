@@ -43,7 +43,7 @@ You can use the `[AllowedDataTypes]` attribute to help the inspector filter a Vi
 
 Example:
 ```
-public class TextFieldDataBinding : DataBinding
+public class TextFieldBinding : DataBinding
 {
     public Text TextField;
     [AllowedDataTypes(typeof(string))] public DataSourceReference StringSource;
