@@ -9,6 +9,9 @@ namespace BasicBind.Core
 	/// Each DataBinding should contain DataSourceReferences which allow for the binding of DataSources on specific ViewModels.
 	/// The ViewModel for DataBindings can be explicitly set or can be located (by searching upwards from the
 	/// DataBinding owner) using the 'Locate View Model' button in the inspector.
+	///
+	/// By default, all bindings are unbound on both OnDisable and OnDestroy.
+	/// You can change the `UnbindOnDisable` and `UnbindOnDestroy` flags to modify this behavior.
 	/// </summary>
 	[ExecuteInEditMode]
 	public abstract class DataBinding : MonoBehaviour
