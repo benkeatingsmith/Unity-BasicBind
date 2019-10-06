@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace BasicBind
+namespace BasicBind.Core
 {
 	/// <summary>
 	/// DataBindings are components which observe DataSources and can execute logic when they change.

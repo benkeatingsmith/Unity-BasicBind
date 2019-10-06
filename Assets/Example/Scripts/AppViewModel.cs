@@ -1,4 +1,4 @@
-using BasicBind;
+using BasicBind.Core;
 using UnityEngine;
 
 public class AppViewModel : ViewModel

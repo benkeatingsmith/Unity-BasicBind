@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace BasicBind
+namespace BasicBind.Core
 {
 	[CustomEditor(typeof(DataBinding), true)]
 	[CanEditMultipleObjects]

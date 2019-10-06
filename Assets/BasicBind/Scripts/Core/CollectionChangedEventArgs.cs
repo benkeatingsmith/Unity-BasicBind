@@ -1,6 +1,6 @@
 using System;
 
-namespace BasicBind
+namespace BasicBind.Core
 {
 	public class CollectionChangedEventArgs : EventArgs
 	{

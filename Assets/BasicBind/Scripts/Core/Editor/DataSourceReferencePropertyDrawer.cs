@@ -4,7 +4,7 @@ using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 
-namespace BasicBind
+namespace BasicBind.Core
 {
 	[CustomPropertyDrawer(typeof(DataSourceReference))]
 	public class DataSourceReferencePropertyDrawer : PropertyDrawer

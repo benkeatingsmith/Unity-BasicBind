@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace BasicBind
+namespace BasicBind.Core
 {
 	[Serializable] public class BoolDataSource : DataSource<bool> { }
 	[Serializable] public class IntDataSource : DataSource<int> { }
@@ -12,4 +12,5 @@ namespace BasicBind
 	[Serializable] public class Vector3DataSource : DataSource<Vector3> { }
 	[Serializable] public class QuaternionDataSource : DataSource<Quaternion> { }
 	[Serializable] public class ColorDataSource : DataSource<Color> { }
+	[Serializable] public class SpriteDataSource : DataSource<Sprite> { }
 }

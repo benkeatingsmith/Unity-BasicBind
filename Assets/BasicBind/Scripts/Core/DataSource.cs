@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace BasicBind
+namespace BasicBind.Core
 {
 	public interface IDataSource
 	{

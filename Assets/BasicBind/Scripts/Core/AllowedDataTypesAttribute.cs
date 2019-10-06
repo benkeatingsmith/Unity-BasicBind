@@ -1,6 +1,6 @@
 using System;
 
-namespace BasicBind
+namespace BasicBind.Core
 {
 	/// <summary>
 	/// Use on DataSourceReference fields to allow for filtering of DataSources by type.

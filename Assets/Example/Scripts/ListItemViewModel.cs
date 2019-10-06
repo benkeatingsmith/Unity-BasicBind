@@ -1,5 +1,5 @@
 using System;
-using BasicBind;
+using BasicBind.Core;
 using UnityEngine;
 
 [Serializable]

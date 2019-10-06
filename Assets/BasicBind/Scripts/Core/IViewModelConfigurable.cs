@@ -1,4 +1,4 @@
-namespace BasicBind
+namespace BasicBind.Core
 {
 	public interface IViewModelConfigurable
 	{

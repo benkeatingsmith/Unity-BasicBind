@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace BasicBind
+namespace BasicBind.Core
 {
 	public static class ListExtensions
 	{

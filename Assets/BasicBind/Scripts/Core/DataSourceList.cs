@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace BasicBind
+namespace BasicBind.Core
 {
 	public interface IDataSourceList : IDataSource, IEnumerable
 	{

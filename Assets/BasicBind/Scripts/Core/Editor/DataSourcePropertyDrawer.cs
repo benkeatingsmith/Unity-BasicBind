@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
-namespace BasicBind
+namespace BasicBind.Core
 {
 	[CustomPropertyDrawer(typeof(IDataSource), true)]
 	public class DataSourcePropertyDrawer : PropertyDrawer

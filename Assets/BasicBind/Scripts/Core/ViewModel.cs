@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace BasicBind
+namespace BasicBind.Core
 {
 	/// <summary>
 	/// ViewModels represent bindable containers of DataSource objects.

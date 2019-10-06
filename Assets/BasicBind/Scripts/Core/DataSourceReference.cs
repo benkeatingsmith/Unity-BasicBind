@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace BasicBind
+namespace BasicBind.Core
 {
 	/// <summary>
 	/// Enables serialization of data source references on specific ViewModels.
