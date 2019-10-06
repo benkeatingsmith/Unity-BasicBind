@@ -65,7 +65,7 @@ namespace BasicBind.Bindings
 			return parent.GetChild(index).gameObject;
 		}
 
-		private GameObject NewInstance(GameObject prefab, object item)
+		protected virtual GameObject NewInstance(GameObject prefab, object item)
 		{
 			var instance = Instantiate(prefab, Root);
 			TryConfigureViewModel(instance, item);
@@ -78,7 +78,7 @@ namespace BasicBind.Bindings
 			if (viewModel is IViewModelConfigurable configurable) configurable.Configure(item);
 		}
 
-		private static void DestroyInstance(GameObject instance)
+		protected virtual void DestroyInstance(GameObject instance)
 		{
 			if (Application.isPlaying)
 			{
@@ -93,7 +93,10 @@ namespace BasicBind.Bindings
 		private void ClearInstances()
 		{
 			var childCount = Root.transform.childCount;
-			for (var i = 0; i < childCount; ++i) DestroyInstance(Root.transform.GetChild(0).gameObject);
+			for (var i = childCount - 1; i >= 0; --i)
+			{
+				DestroyInstance(Root.transform.GetChild(i).gameObject);
+			}
 			instances.Clear();
 		}
 	}
