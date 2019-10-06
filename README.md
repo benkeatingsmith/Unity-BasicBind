@@ -1,10 +1,11 @@
 # Basic Bind (for Unity)
 
+![](example.gif)
+
 *One-way MVVM style data-binding for Unity.*
 
 Basic Bind is a simple data binding system which enables one-way data binding from observable model data to view components.
 
-![](example.gif)
 
 ## Installation
 ### Manual Import
@@ -23,8 +24,8 @@ Example:
 ```
 public class ProfileViewModel : ViewModel
 {
-	public StringDataSource Username;
-	public SpriteDataSource Avatar;
+    public StringDataSource Username;
+    public SpriteDataSource Avatar;
 }
 ```
 
@@ -44,20 +45,20 @@ Example:
 ```
 public class TextFieldDataBinding : DataBinding
 {
-	public Text TextField;
-	[AllowedDataTypes(typeof(string))] public DataSourceReference StringSource;
+    public Text TextField;
+    [AllowedDataTypes(typeof(string))] public DataSourceReference StringSource;
 
-	protected override void Setup()
-	{
-		Bind(StringSource, OnValueChanged);
-	}
+    protected override void Setup()
+    {
+        Bind(StringSource, OnValueChanged);
+    }
 
-	private void OnValueChanged(object sender, EventArgs eventArgs)
-	{
-		if (StringSource != null && StringSource.TryGetValue<string>(out var value))
-		{
-			if (TextField) TextField.text = value;
-		}
-	}
+    private void OnValueChanged(object sender, EventArgs eventArgs)
+    {
+        if (StringSource != null && StringSource.TryGetValue<string>(out var value))
+        {
+            if (TextField) TextField.text = value;
+        }
+    }
 }
 ```
