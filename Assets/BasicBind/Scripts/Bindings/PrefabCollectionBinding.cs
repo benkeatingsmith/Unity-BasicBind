@@ -11,9 +11,9 @@ namespace BasicBind.Bindings
 		public Transform Root;
 		public GameObject Prefab;
 		[AllowedDataTypes(typeof(IList))] public DataSourceReference CollectionSource;
-	
+
 		private readonly List<GameObject> instances = new List<GameObject>();
-	
+
 		protected override void Setup()
 		{
 			ClearInstances();
@@ -47,7 +47,7 @@ namespace BasicBind.Bindings
 				case CollectionChangedEventArgs.ChangeTypes.Cleared:
 				{
 					ClearInstances();
-					break;	
+					break;
 				}
 				default:
 					throw new ArgumentOutOfRangeException();
@@ -58,8 +58,8 @@ namespace BasicBind.Bindings
 		{
 			ClearInstances();
 		}
-	
-		private GameObject TryGetChildAt(Transform parent, int index)
+
+		private static GameObject TryGetChildAt(Transform parent, int index)
 		{
 			if (index < 0 || index >= parent.childCount) return null;
 			return parent.GetChild(index).gameObject;
@@ -92,7 +92,8 @@ namespace BasicBind.Bindings
 
 		private void ClearInstances()
 		{
-			while (Root.transform.childCount > 0) DestroyInstance(Root.transform.GetChild(0).gameObject);
+			var childCount = Root.transform.childCount;
+			for (var i = 0; i < childCount; ++i) DestroyInstance(Root.transform.GetChild(0).gameObject);
 			instances.Clear();
 		}
 	}
